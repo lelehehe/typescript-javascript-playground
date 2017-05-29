@@ -16,6 +16,11 @@ Here is a powerful linq similar way to transform data using arrow function.
 
 ![arrow function](/Images/arrowFunction.png)
 
+### lodash FP Guide
+
+https://github.com/lodash/lodash/wiki/FP-Guide
+
+
 
 
 

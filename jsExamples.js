@@ -35,3 +35,30 @@ var data = _(cities)
   .value();
 
 console.log(data);
+
+
+//3: https://github.com/lodash/lodash/wiki/FP-Guide
+// Load the fp build.
+var fp = require('lodash/fp');
+
+// Load a method category.
+var object = require('lodash/fp/object');
+
+// Load a single method for smaller builds with browserify/rollup/webpack.
+var extend = require('lodash/fp/extend');
+
+// The `lodash/map` iteratee receives three arguments:
+// (value, index|key, collection)
+var data2 = _.map(['6', '8', '10'], parseInt);
+console.log(data2);
+// ➜ [6, NaN, 2]
+
+// The `lodash/fp/map` iteratee is capped at one argument:
+// (value)
+fp.map(parseInt)(['6', '8', '10']);
+// ➜ [6, 8, 10]
+
+
+
+
+

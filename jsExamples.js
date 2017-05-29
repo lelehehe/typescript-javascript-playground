@@ -8,22 +8,30 @@ import value from './myModule';
 
 var _ = require('lodash');
 
+
+//sample code: 
+//http://pragmatists.pl/blog/2017/05/higher-order-functions-in-lodash/
+
+//1. partial 
 function divide(a, b) {
   return a / b;
 }
 
 var half = _.partial(divide, _, 2);
 
-var res = half(22222);
-res; 
+var testResult = half(3);
 
-var test = res + 3;
-res;
-test;
-console.log(res);
 
-var result = _.drop([1, 2, 3]);
+var cities = require('./cities.json');
 
-console.log(result);
+//2. old way to deal with data transform using linq style
+var data = _(cities)
+  .filter(c => c.population >= 5000000)
+  .countBy(c => c.country)
+  .toPairs()
+  .map(c => _.zipObject(['country', 'numOfCities'], c))
+  .orderBy(c => c.numOfCities, 'desc')
+  .take(5)
+  .value();
 
-console.log(value);
+console.log(data);

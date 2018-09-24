@@ -52,7 +52,6 @@ class Menu {
 
 // Create a new instance of the Menu class.
 var sundayMenu = new Menu(["pancakes","waffles","orange juice", "apple"], 1);
-
 // Call the list method.
 sundayMenu.list();
 

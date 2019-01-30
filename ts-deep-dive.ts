@@ -209,7 +209,6 @@ import * as deepEqual from 'deep-equal';
 
   // Error!
   nameNumber = ['Jenny', '867-5309'];
-
 }
 // Type Alias 🏓
 {
@@ -218,9 +217,124 @@ import * as deepEqual from 'deep-equal';
   var sample: StrOrNum;
   sample = 123;
   sample = '123';
-  
+
   // Just checking
   sample = true; // Error!
 }
 
 // https://basarat.gitbooks.io/typescript/content/docs/enums.html
+{
+  enum Tristate {
+    False = 1,
+    True,
+    Unknown
+  }
+  console.log(Tristate[0]); // undefined
+  console.log(Tristate['False']); // 1
+  console.log(Tristate[Tristate.False]); // "False"
+}
+// very good enum usage
+{
+  enum AnimalFlags {
+    None = 0,
+    HasClaws = 1 << 0,
+    CanFly = 1 << 1
+  }
+  type Animal = {
+    flags: AnimalFlags;
+  };
+
+  function printAnimalAbilities(animal: Animal) {
+    var result = '';
+    if (animal.flags & AnimalFlags.HasClaws) {
+      result += AnimalFlags[AnimalFlags.HasClaws] + ' ';
+    }
+    if (animal.flags & AnimalFlags.CanFly) {
+      result += AnimalFlags[AnimalFlags.CanFly] + ' ';
+    }
+    if (animal.flags == AnimalFlags.None) {
+      result += AnimalFlags[AnimalFlags.None] + ' ';
+    }
+    return result; /*?+*/
+  }
+
+  let animal: Animal = { flags: AnimalFlags.None };
+  printAnimalAbilities(animal); // nothing
+  animal.flags |= AnimalFlags.HasClaws;
+  printAnimalAbilities(animal); // animal has claws
+  animal.flags &= ~AnimalFlags.HasClaws;
+  printAnimalAbilities(animal); // nothing
+  animal.flags |= AnimalFlags.HasClaws | AnimalFlags.CanFly;
+  var result = printAnimalAbilities(animal);
+  result; /*?+*/
+}
+// add function to enum
+{
+  enum Weekday {
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday
+  }
+  namespace Weekday {
+    export function isBusinessDay(day: Weekday) {
+      switch (day) {
+        case Weekday.Saturday:
+        case Weekday.Sunday:
+          return false;
+        default:
+          return true;
+      }
+    }
+  }
+
+  const mon = Weekday.Monday;
+  const sun = Weekday.Sunday;
+  console.log(Weekday.isBusinessDay(mon)); // true
+  console.log(Weekday.isBusinessDay(sun)); // false
+}
+
+{
+  var sampleVariable: { bar: number };
+  sampleVariable = { bar: 2 }; /*?+*/
+}
+
+// callable https://basarat.gitbooks.io/typescript/content/docs/types/callable.html
+{
+  interface Overloaded {
+    (foo: string): string;
+    (foo: number): number;
+  }
+
+  // example implementation
+  function stringOrNumber(foo: number): number;
+  function stringOrNumber(foo: string): string;
+  function stringOrNumber(foo: any): any {
+    if (typeof foo === 'number') {
+      return foo * foo;
+    } else if (typeof foo === 'string') {
+      return `hello ${foo}`;
+    }
+  }
+
+  const overloaded: Overloaded = stringOrNumber;
+
+  // example usage
+  const str = overloaded('');/*?+*/ 
+  const num = overloaded(123);/*?+*/ 
+}
+
+// arrow syntax
+{
+  const simple: (x:number)=>string = (x) => {return x.toString();}
+  simple(3); /*?+*/
+}
+
+//Type Assertion https://basarat.gitbooks.io/typescript/content/docs/types/type-assertion.html
+// as foo vs. <foo>
+{
+  
+}

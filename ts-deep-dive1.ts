@@ -323,18 +323,151 @@ import * as deepEqual from 'deep-equal';
   const overloaded: Overloaded = stringOrNumber;
 
   // example usage
-  const str = overloaded('');/*?+*/ 
-  const num = overloaded(123);/*?+*/ 
+  const str = overloaded(''); /*?+*/
+  const num = overloaded(123); /*?+*/
 }
 
 // arrow syntax
 {
-  const simple: (x:number)=>string = (x) => {return x.toString();}
+  const simple: (x: number) => string = x => {
+    return x.toString();
+  };
   simple(3); /*?+*/
 }
 
 //Type Assertion https://basarat.gitbooks.io/typescript/content/docs/types/type-assertion.html
 // as foo vs. <foo>
 {
-  
+  interface Foo {
+    bar: number;
+    bas: string;
+  }
+  var foo = {} as Foo;
+  // ahhhh .... forget something?
+}
+// https://basarat.gitbooks.io/typescript/content/docs/types/freshness.html
+//TypeScript provides a concept of Freshness (also called strict object literal checking) to make it easier to type check object literals that would otherwise be structurally type compatible
+{
+  function logName(something: { name: string }) {
+    console.log(something.name);
+  }
+
+  var person = { name: 'matt', job: 'being awesome' };
+  var animal = { name: 'cow', diet: 'vegan, but has milk of own species' };
+  var job = { name: 'matt', job: 'being awesome' };
+  var random = { note: `I don't have a name property` };
+
+  logName(person); // okay
+  logName({ name: 'matt', job: 'being awesome' });
+  logName(animal); // okay
+  logName(random); // Error: property `name` is missing
+}
+
+// Allowing extra properties
+{
+  // A type can include an index signature to explicitly indicate that excess properties are permitted:
+  var y: { foo: number; [x: string]: any };
+  y = { foo: 1, baz: 2 }; /*?+*/
+}
+
+// typeof
+// affect the definitation inside sub-block 🏓
+{
+  function doSomething(x: number | string) {
+    if (typeof x === 'string') {
+      // Within the block TypeScript knows that `x` must be a string 🏓🏓🏓
+      // console.log(x.subtr(1)); // Error, 'subtr' does not exist on `string`
+      return x.substr(1); // OK
+    }
+    x.substr(1); // Error: There is no guarantee that `x` is a `string`
+  }
+  doSomething('abc'); /*?+*/
+}
+
+//
+{
+  interface A {
+    x: number;
+  }
+  interface B {
+    y: string;
+  }
+
+  function doStuff(q: A | B) {
+    if ('x' in q) {
+      return q.x;
+    } else {
+      return q.y;
+    }
+  }
+  doStuff({ x: 12 }); /*?+*/
+  doStuff({ y: 'abc' }); /*?+*/
+}
+
+{
+  type CardinalDirection = 'North' | 'East' | 'South' | 'West';
+
+  function move(distance: number, direction: CardinalDirection) {
+    // ...
+  }
+
+  move(1, 'North'); // Okay
+  move(1, 'Nurth'); // Error!
+}
+// interesting way to set up type 🏓
+{
+  type OneToFive = 1 | 2 | 3 | 4 | 5;
+  type Bools = true | false;
+
+  const good: OneToFive = 4;
+  const bad: OneToFive = 6;
+}
+
+// mark index signatures as readonly 🏓
+{
+  //x:number also same result
+  interface Foo {
+    readonly [x: string]: number;
+  }
+  let foo: Foo = { bar: 11, baz: 33 };
+  foo.blah = 4;
+}
+
+// ReadonlyArray
+{
+  let foo: ReadonlyArray<number> = [1, 2, 3];
+  foo.push(4);
+}
+
+// Automatic Inference
+{
+  class Person {
+    firstName: string = 'John';
+    lastName: string = 'Doe';
+    anotherOne: string;
+    get fullName() {
+      return this.firstName + this.lastName;
+    }
+  }
+
+  const person = new Person();
+  console.log(person.fullName); // John Doe
+  person.fullName = 'Dear Reader'; // Error! fullName is readonly
+  person.anotherOne = 'foo';
+}
+
+// generic
+{
+  class Queue<T> {
+    private data = [];
+    push = (item: T) => this.data.push(item);
+    pop = (): T => this.data.shift();
+  }
+
+  let queue = new Queue<number>();
+  queue.push(3);
+  let a = 'test';
+  a;
+  let data = queue.pop(); 
+  console.log('data is ', data);
 }

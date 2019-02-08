@@ -57,8 +57,3 @@ console.log(data2);
 // (value)
 fp.map(parseInt)(['6', '8', '10']);
 // ➜ [6, 8, 10]
-
-
-
-
-

@@ -39,6 +39,3 @@ c.Radius = 5;
 console.log(
   `Radius: ${c.Radius}, Area: ${c.Area}, Circumference: ${c.Circumference}`
 ); // Radius: 5, Area: 78.53981633974483, Circumference: 31.41592653589793
-
-
-class 

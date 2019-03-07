@@ -1,4 +1,5 @@
 //more samples are here: http://tutorialzine.com/2016/07/learn-typescript-in-30-minutes/
+// from b1
 
 // Here we define our Food interface, its properties, and their types.
 interface Food {

@@ -2,7 +2,7 @@
 environment setup:
 
 1. vsCode
-2. quokka extension
+2. quokka extension  Quokka-1.0.259 for VS Code (Read Instructions)
 3. run "npm i"
 4. In vsCode, "ctrl+shift+p", then select "quokkajs: Start on current file" as following screen
 

@@ -30,50 +30,48 @@ function addEdge(origin, destination) {
 }
 
 // Create the Graph
-airports.forEach(addNode);
+airports.forEach(addNode); 
 routes.forEach((route) => addEdge(...route));
 
 adjacencyList;
 
-function bfs(start) {
-  const visited = new Set(); // 👈 good usage
+function bfs(start, end) {
+  const q = [start];
+  const visited = new Set();
 
-  const queue = [start];
+  while (q.length) {
+    const airport = q.shift();
 
-  while (queue.length > 0) {
-    const airport = queue.shift(); // mutates the queue
+    const destinations = adjacencyList.get(airport);
 
-    const destinations = adjacencyList.get(airport); /*?+*/
-
-    for (const destination of destinations) {
-      if (destination === "BKK") {
-        console.log(`BFS found Bangkok!`);
+    for (let destination of destinations) {
+      if (destination === end) { 
+        return true;
       }
 
-      if (!visited.has(destination)) {
+      if (!visited.has(destination)){
+        q.push(destination);
         visited.add(destination);
-        queue.push(destination);
       }
-    }
+    };
   }
+
+  return false;
 }
 
-function dfs(start, visited = new Set()) {
+function dfs(start, end, visited = new Set()) {
   visited.add(start);
-
   const destinations = adjacencyList.get(start);
 
   for (const destination of destinations) {
-    if (destination === "BKK") {
-      console.log(`DFS found BKK`);
-      return;
-    }
+    if (destination === end) return true;
 
     if (!visited.has(destination)) {
-      dfs(destination, visited);
+      if(dfs(destination, end, visited)) return true;
     }
   }
-}
+  return false;
+} 
 
-bfs("PHX");
-dfs("PHX");
+bfs("PHX", "BKK"); /*?+*/
+dfs("PHX", "BKK"); /*?+*/

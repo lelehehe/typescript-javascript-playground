@@ -14,3 +14,15 @@ map.get(true); /*?+*/
 let abc = 23;
 abc;
 map;
+
+let entity = {
+  a: 1, 
+  c: 3,
+  b: 2,
+}
+
+function foo({a, b}) {
+  return a + b;
+}
+
+foo(entity); /*? */

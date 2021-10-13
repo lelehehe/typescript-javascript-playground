@@ -1,59 +1,62 @@
-//more samples are here: http://tutorialzine.com/2016/07/learn-typescript-in-30-minutes/
-// master 1
-// master 2
+{
+  // https://dev.to/techygeeky/top-20-javascript-tips-and-tricks-to-increase-your-speed-and-efficiency-283g
 
-// Here we define our Food interface, its properties, and their types.
-interface Food {
-    name: string;
-    calories: number;
-}
+  // reduce() with or without initial value, the initial value is optional ⭐️
+  const array = [-5, -4];
+  const sum = array.reduce((acc, curr) => acc + curr); /*?*/
+  const sumWithInitialValue = array.reduce((acc, curr) => acc + curr, 0); /*?*/
+  const max = array.reduce((acc, curr) => Math.max(acc, curr)); /*?*/
+  const maxWithInitialValue = array.reduce(
+    (acc, curr) => Math.max(acc, curr),
+    -Infinity
+  ); /*?*/ // -Infinity is the smallest number possible ⭐️
 
-// We tell our function to expect an object that fulfills the Food interface. 
-// This way we know that the properties we need will always be available.
-function speak(food: Food): void{
-  console.log("Our " + food.name + " has " + food.calories + " calories.");
-}
-
-// We define an object that has all of the properties the Food interface expects.
-// Notice that types will be inferred automatically.
-var ice_cream = {
-  name: "ice cream", 
-  calories: 200
-}
-
-var yogurt = {
-  name: "yogurt", 
-  calories: 100
-}
-
-speak(ice_cream);
-speak(yogurt);
-
-class Menu {
-  // Our properties:
-  // By default they are public, but can also be private or protected.
-  items: Array<string>;  // The items in the menu, an array of strings.
-  pages: number;         // How many pages will the menu be, a number.
-
-  // A straightforward constructor. 
-  constructor(item_list: Array<string>, total_pages: number) {
-    // The this keyword is mandatory.
-    this.items = item_list;    
-    this.pages = total_pages;
-  }
-
-  // Methods
-  list(): void {
-    console.log("Our menu for today:");
-    for(var i=0; i<this.items.length; i++) {
-      console.log(this.items[i]);
+  // remove duplicates from an array
+  const arrayWithDuplicates = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+  ];
+  const arrayWithoutDuplicates = arrayWithDuplicates.reduce((acc, curr) => {
+    if (!acc.includes(curr)) {
+      acc.push(curr);
     }
-  }
+    return acc;
+  }, []); /*?*/
 
-} 
+  const arrayWithoutDuplicates1 = [...new Set(arrayWithDuplicates)]; /*?*/
 
-// Create a new instance of the Menu class.
-var sundayMenu = new Menu(["pancakes","waffles","orange juice", "apple"], 1);
-// Call the list method.
-sundayMenu.list();
+  /*
+  14. Nullish Coalescing Operator ⭐️ I haven't started using this yet!!!
+      The nullish coalescing operator (??) is a logical operator that returns its right-hand side 
+      operand when its left-hand side operand is null or undefined, and otherwise returns its 
+      left-hand side operand.
+   */
+  const foo = null ?? "default"; /*?*/
+  const bar = "bar" ?? "default"; /*?*/
+  const num = null ?? 0; /*?*/
+  const num1 = 0 ?? null; /*?*/
 
+}
+
+{
+  // https://medium.com/geekculture/10-clever-javascript-tricks-that-every-developer-should-know-e0be92bcfe9
+
+  // 1. Passing arguments as objects
+
+}
